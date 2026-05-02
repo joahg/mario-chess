@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5c94fc"/>
+      <stop offset="1" stop-color="#9bd1ff"/>
+    </linearGradient>
+    <linearGradient id="block" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd23a"/>
+      <stop offset="1" stop-color="#e6a01a"/>
+    </linearGradient>
+  </defs>
+  <!-- rounded square background (sky) -->
+  <rect x="0" y="0" width="512" height="512" rx="96" ry="96" fill="url(#sky)"/>
+  <!-- ground -->
+  <rect x="0" y="380" width="512" height="132" fill="#5fb04a"/>
+  <rect x="0" y="380" width="512" height="14" fill="#2f7a2a"/>
+  <!-- ? block -->
+  <g>
+    <rect x="96" y="120" width="320" height="240" rx="20" ry="20" fill="url(#block)" stroke="#6b3a17" stroke-width="14"/>
+    <!-- rivets -->
+    <circle cx="120" cy="144" r="10" fill="#6b3a17"/>
+    <circle cx="392" cy="144" r="10" fill="#6b3a17"/>
+    <circle cx="120" cy="336" r="10" fill="#6b3a17"/>
+    <circle cx="392" cy="336" r="10" fill="#6b3a17"/>
+    <!-- chess king crown silhouette in white with red M cross -->
+    <g transform="translate(256 250)">
+      <!-- crown base -->
+      <path d="M -90 60 L 90 60 L 100 30 L 60 50 L 40 0 L 0 40 L -40 0 L -60 50 L -100 30 Z"
+            fill="#ffffff" stroke="#6b3a17" stroke-width="10" stroke-linejoin="round"/>
+      <!-- cross with M -->
+      <rect x="-14" y="-70" width="28" height="44" fill="#e63946" stroke="#6b3a17" stroke-width="6"/>
+      <rect x="-30" y="-58" width="60" height="20" fill="#e63946" stroke="#6b3a17" stroke-width="6"/>
+    </g>
+  </g>
+  <!-- pipe corner accent -->
+  <g>
+    <rect x="40" y="320" width="80" height="80" fill="#3aaa35" stroke="#1f6a1c" stroke-width="8"/>
+    <rect x="28" y="300" width="104" height="36" fill="#3aaa35" stroke="#1f6a1c" stroke-width="8"/>
+    <rect x="50" y="338" width="20" height="56" fill="#7ee06b"/>
+  </g>
+</svg>
