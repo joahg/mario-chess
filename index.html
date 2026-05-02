@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>🍄 Mario Chess 🏰</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>🍄 Mario Chess 🏰</title>
 <meta name="description" content="Mario-themed chess with a chess clock — full rules, fully playable in your browser. Installable PWA.">
 <meta name="theme-color" content="#e63946">
 <link rel="manifest" href="manifest.webmanifest">
@@ -25,13 +25,16 @@
   --gold:#ffcc33; --red:#e63946;
   --hud-bg:#000; --hud-fg:#fff;
 }
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%;font-family:'Press Start 2P', system-ui, -apple-system, "Segoe UI", sans-serif;color:#fff;overflow:hidden}
+*{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+html,body{margin:0;padding:0;height:100%;font-family:'Press Start 2P', system-ui, -apple-system, "Segoe UI", sans-serif;color:#fff}
+html,body{overflow:hidden}
 body{
   background:
     radial-gradient(ellipse at 20% 80%, rgba(95,176,74,.0) 0%, transparent 60%),
     linear-gradient(to bottom, var(--sky1) 0%, var(--sky2) 70%, #b9e87a 70%, #5fb04a 100%);
   position:relative;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  touch-action: manipulation;
 }
 /* clouds */
 .cloud{position:absolute;background:#fff;border-radius:50%;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.1));pointer-events:none}
@@ -60,6 +63,7 @@ header.topbar{
   background:linear-gradient(#c9302c,#8b1a17);
   border:4px solid #000;border-radius:8px;padding:8px 14px;
   box-shadow:inset 0 -4px 0 rgba(0,0,0,.3), 0 4px 0 rgba(0,0,0,.4);
+  user-select:none;-webkit-user-select:none;
 }
 .title{font-size:18px;letter-spacing:1px;text-shadow:3px 3px 0 #000, 0 0 8px #ffcc33;display:flex;align-items:center;gap:10px}
 .bounce{display:inline-block;animation:bounce 1.2s ease-in-out infinite}
@@ -71,6 +75,7 @@ button.btn{
   border:3px solid #000;border-radius:6px;padding:8px 10px;cursor:pointer;
   box-shadow:inset 0 -3px 0 rgba(0,0,0,.35), 0 3px 0 rgba(0,0,0,.4);
   text-shadow:2px 2px 0 #000;
+  touch-action: manipulation;
 }
 button.btn:hover{filter:brightness(1.1)}
 button.btn:active{transform:translateY(2px);box-shadow:inset 0 -1px 0 rgba(0,0,0,.35), 0 1px 0 rgba(0,0,0,.4)}
@@ -88,6 +93,7 @@ main{display:flex;flex:1;gap:10px;min-height:0}
   background:#000;border:4px solid #fff;border-radius:6px;padding:10px 14px;
   font-family:'Press Start 2P',monospace;color:#fff;min-width:200px;text-align:center;
   box-shadow:0 4px 0 rgba(0,0,0,.5);
+  user-select:none;-webkit-user-select:none;
 }
 .hud .who{font-size:11px;color:#ffcc33;margin-bottom:6px;letter-spacing:1px}
 .hud .time{font-size:22px;letter-spacing:2px}
@@ -100,6 +106,7 @@ main{display:flex;flex:1;gap:10px;min-height:0}
   background:linear-gradient(#1976d2,#0d47a1);border:3px solid #000;border-radius:6px;
   padding:8px 12px;font-size:10px;text-align:center;width:220px;
   text-shadow:2px 2px 0 #000;
+  user-select:none;-webkit-user-select:none;
 }
 .turn-banner.black{background:linear-gradient(#6a1b9a,#3d0a5c)}
 
@@ -126,7 +133,7 @@ main{display:flex;flex:1;gap:10px;min-height:0}
   position:relative;
   background:#000;
 }
-.sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;overflow:hidden}
+.sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;-webkit-user-select:none;overflow:hidden;touch-action:manipulation;}
 .sq.light{background:
   radial-gradient(circle at 8% 8%, rgba(0,0,0,.18) 2px, transparent 3px),
   radial-gradient(circle at 92% 8%, rgba(0,0,0,.18) 2px, transparent 3px),
@@ -150,7 +157,7 @@ main{display:flex;flex:1;gap:10px;min-height:0}
 
 .piece{
   width:78%;height:78%;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:calc(min(72vh,640px)/14);
+  font-size: clamp(20px, calc(min(72vh,640px)/14), 48px);
   font-family:'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji', sans-serif;
   position:relative;z-index:1;
   transition:transform .12s;
@@ -160,7 +167,7 @@ main{display:flex;flex:1;gap:10px;min-height:0}
 .sq:hover .piece{transform:scale(1.05)}
 
 /* Coordinates */
-.coords-files, .coords-ranks{position:absolute;font-size:10px;color:#fff;text-shadow:1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000}
+.coords-files, .coords-ranks{position:absolute;font-size:10px;color:#fff;text-shadow:1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;user-select:none;-webkit-user-select:none}
 .coords-files{display:grid;grid-template-columns:repeat(8,1fr);left:30px;right:30px;text-align:center}
 .coords-files.top{top:12px}
 .coords-files.bottom{bottom:12px}
@@ -173,7 +180,7 @@ main{display:flex;flex:1;gap:10px;min-height:0}
   background:rgba(0,0,0,.78);border:3px solid #fff;border-radius:8px;padding:10px;
   font-family:'Press Start 2P',monospace;font-size:9px;color:#fff;
 }
-.panel h3{margin:0 0 8px 0;font-size:10px;color:#ffcc33;letter-spacing:1px}
+.panel h3{margin:0 0 8px 0;font-size:10px;color:#ffcc33;letter-spacing:1px;user-select:none;-webkit-user-select:none}
 .status{font-size:10px;min-height:18px;color:#9be37a;text-shadow:1px 1px 0 #000}
 .status.warn{color:#ff5050}
 .status.win{color:#ffd60a}
@@ -182,20 +189,22 @@ main{display:flex;flex:1;gap:10px;min-height:0}
 .tc-row label{font-size:8px;color:#fff;min-width:60px}
 select.mario-sel{
   font-family:inherit;font-size:9px;background:#fff;color:#000;border:2px solid #000;border-radius:4px;padding:4px 6px;cursor:pointer;
+  touch-action:manipulation;
 }
 
 #moves{
   background:#111;border:2px solid #555;border-radius:4px;padding:6px;
   font-size:9px;line-height:1.7;height:170px;overflow-y:auto;
   color:#fff;
+  -webkit-overflow-scrolling: touch;
 }
 #moves .mv{display:inline-block;margin-right:6px}
 #moves .mvnum{color:#ffcc33;margin-right:4px}
 #moves::-webkit-scrollbar{width:8px}
 #moves::-webkit-scrollbar-thumb{background:#666;border-radius:4px}
 
-.captured-row{min-height:28px;font-size:18px;display:flex;flex-wrap:wrap;gap:2px;background:#222;padding:4px;border-radius:4px;border:1px solid #444}
-.captured-row .pc{display:inline-flex;width:22px;height:22px;border-radius:50%;align-items:center;justify-content:center;font-size:14px}
+.captured-row{min-height:28px;font-size:18px;display:flex;flex-wrap:wrap;gap:2px;background:#222;padding:4px;border-radius:4px;border:1px solid #444;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.captured-row .pc{display:inline-flex;width:22px;height:22px;border-radius:50%;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto}
 .captured-row .pc.w{background:#fde9a8;box-shadow:inset 0 0 0 1px #ffcc33}
 .captured-row .pc.b{background:#3a1a6b;box-shadow:inset 0 0 0 1px #e63946;color:#fff}
 
@@ -209,12 +218,14 @@ select.mario-sel{
   background:linear-gradient(#222,#000);border:4px solid #ffcc33;border-radius:10px;
   padding:20px 26px;text-align:center;font-size:14px;color:#fff;text-shadow:2px 2px 0 #000;
   box-shadow:0 0 30px rgba(255,204,51,.6);
+  max-width:90vw;
 }
-.promoBox .picks{display:flex;gap:10px;margin-top:14px;justify-content:center}
+.promoBox .picks{display:flex;gap:10px;margin-top:14px;justify-content:center;flex-wrap:wrap}
 .promoBtn{
   font-family:inherit;width:70px;height:70px;border-radius:50%;font-size:30px;cursor:pointer;
   background:radial-gradient(circle at 35% 30%, #fff7d6, #fde9a8 60%, #d9b14a);
   border:3px solid #000;box-shadow:inset 0 0 0 3px #ffcc33;
+  touch-action:manipulation;
 }
 .promoBtn.b{background:radial-gradient(circle at 35% 30%, #6a3aa1, #3a1a6b 60%, #1a0a3a);box-shadow:inset 0 0 0 3px #e63946;color:#fff}
 .gameBox h2{margin:0 0 10px 0;font-size:18px;color:#ffcc33}
@@ -227,14 +238,157 @@ select.mario-sel{
   100%{transform:translateY(120vh) rotate(720deg);opacity:.3}
 }
 
-@media(max-width:1100px){
-  #rightCol{flex-basis:240px}
+/* ============================================
+   TABLET LANDSCAPE (e.g., iPad Mini landscape 1133x744)
+   ============================================ */
+@media (max-width:1180px) and (orientation: landscape){
+  main{gap:6px}
+  #rightCol{flex:0 0 220px}
+  .board{width:min(70vw, 88vh);height:min(70vw, 88vh)}
+  .title{font-size:14px}
+  .hud{min-width:160px;padding:8px 10px}
+  .hud .who{font-size:10px}
+  .hud .time{font-size:18px}
+  .turn-banner{width:180px;font-size:9px}
+  #moves{height:140px}
+}
+
+/* ============================================
+   EXISTING SMALL-SCREEN FALLBACK (kept for very narrow screens)
+   ============================================ */
+@media(max-width:1100px) and (orientation: landscape){
   .title{font-size:14px}
 }
-@media(max-width:900px){
-  main{flex-direction:column;align-items:center}
-  #rightCol{flex:0 0 auto;width:100%;max-width:640px}
-  #leftCol{flex-direction:row;flex-wrap:wrap;justify-content:center}
+
+/* ============================================
+   TABLET PORTRAIT (e.g., iPad Mini 744x1133)
+   Takes precedence over the older max-width:900px rule
+   ============================================ */
+@media (max-width: 820px) and (orientation: portrait){
+  html,body{overflow:auto}
+  #app{height:auto;min-height:100vh;padding:6px;gap:6px}
+
+  header.topbar{flex-wrap:wrap;gap:8px;padding:8px 10px}
+  .title{font-size:15px;letter-spacing:0;gap:6px}
+  .btns{gap:6px}
+
+  /* Hide noisy decorative bg on small screens */
+  .cloud, .hill{display:none}
+
+  /* Stack main vertically */
+  main{flex-direction:column;align-items:stretch;gap:8px;flex:0 0 auto}
+
+  /* Left col becomes top row: clocks side-by-side, banner above */
+  #leftCol{
+    order:1;
+    flex:0 0 auto;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    align-items:stretch;
+  }
+  #leftCol .turn-banner{
+    order:0;
+    width:auto;
+    align-self:center;
+    max-width:100%;
+  }
+  /* Wrap clocks into a row */
+  .hud-row{
+    display:flex;
+    flex-direction:row;
+    gap:8px;
+    width:100%;
+  }
+  #leftCol .hud{
+    flex:1 1 0;
+    min-width:0;
+    padding:6px 8px;
+  }
+  #leftCol .hud .who{font-size:9px;margin-bottom:4px}
+  #leftCol .hud .time{font-size:18px;letter-spacing:1px}
+
+  /* Center column with board */
+  #centerCol{
+    order:2;
+    flex:0 0 auto;
+  }
+  .board-wrap{padding:22px}
+  .board{
+    width: min(92vw, calc(100vh - 320px));
+    height: min(92vw, calc(100vh - 320px));
+  }
+  .coords-files{left:22px;right:22px;font-size:9px}
+  .coords-ranks{top:22px;bottom:22px;font-size:9px}
+  .coords-files.top{top:8px}
+  .coords-files.bottom{bottom:8px}
+  .coords-ranks.left{left:6px}
+  .coords-ranks.right{right:6px}
+
+  /* Right col becomes full-width grid below board */
+  #rightCol{
+    order:3;
+    flex:0 0 auto;
+    width:100%;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:8px;
+    min-height:0;
+  }
+  #rightCol .panel{margin:0}
+  #rightCol .panel.full{grid-column:1 / -1}
+  #moves{height:auto;max-height:30vh}
+
+  /* Pieces scale with smaller board */
+  .piece{font-size: clamp(18px, 8vw, 40px)}
+}
+
+/* Slightly wider portrait tablets (e.g. regular iPad 820-1024 portrait) */
+@media (min-width:821px) and (max-width: 1024px) and (orientation: portrait){
+  html,body{overflow:auto}
+  #app{height:auto;min-height:100vh}
+  main{flex-direction:column;align-items:stretch}
+  .cloud{opacity:.6}
+  #leftCol{order:1;flex-direction:column;width:100%}
+  #leftCol .hud-row{display:flex;flex-direction:row;gap:10px;width:100%}
+  #leftCol .hud{flex:1 1 0;min-width:0}
+  #leftCol .turn-banner{align-self:center}
+  #centerCol{order:2}
+  .board{width:min(80vw, calc(100vh - 360px));height:min(80vw, calc(100vh - 360px))}
+  #rightCol{order:3;flex:0 0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  #rightCol .panel.full{grid-column:1 / -1}
+  #moves{height:auto;max-height:28vh}
+}
+
+/* ============================================
+   TOUCH ERGONOMICS (any pointer:coarse device)
+   ============================================ */
+@media (pointer: coarse){
+  button.btn{
+    min-height:44px;
+    min-width:44px;
+    font-size:11px;
+    padding:10px 12px;
+  }
+  .promoBtn{
+    width:80px;
+    height:80px;
+    min-width:56px;
+    min-height:56px;
+    font-size:34px;
+  }
+  select.mario-sel{
+    min-height:36px;
+    font-size:11px;
+    padding:6px 8px;
+  }
+  .sq{touch-action:manipulation}
+}
+
+/* Old small-screen rule retained but made non-portrait so it doesn't conflict with the new portrait rules */
+@media(max-width:900px) and (orientation: landscape){
+  #rightCol{flex-basis:240px}
   .board{width:min(86vw, 560px);height:min(86vw, 560px)}
 }
 </style>
@@ -243,9 +397,9 @@ select.mario-sel{
   "@context": "urn:goose.ai:schema",
   "@type": "GooseApp",
   "name": "mario-chess",
-  "description": "A fully playable two-player Mario-themed chess game with chess clock, full rules, and retro HUD styling.",
-  "width": 1280,
-  "height": 900,
+  "description": "Mario-themed two-player chess game with chess clock, full rules, and tablet/iPad-optimized responsive layout.",
+  "width": 1200,
+  "height": 820,
   "resizable": true,
   "mcpServers": [
     "apps"
@@ -253,80 +407,72 @@ select.mario-sel{
 }
   </script>
   <script type="application/x-goose-prd">
-Build a Mario-themed chess game called "Mario Chess" — a fully playable two-player (hot-seat) chess game on a single device with a chess clock. Use HTML/CSS/JavaScript only (no external dependencies; everything self-contained).
+## Mario Chess — PRD
 
-VISUAL THEME (Mario / Super Mario Bros):
-- Background: bright blue sky with stylized white clouds and rolling green hills (CSS gradients + SVG/CSS shapes, no external images).
-- Title bar at top: "🍄 Mario Chess 🏰" in a chunky, bold, blocky font (e.g., "Press Start 2P" via Google Fonts is OK, OR fallback to system bold sans). Include small bouncing coin/mushroom emoji decorations.
-- Board: 8x8, styled like Mario world tiles. Light squares = warm tan/sand "?-block" yellow (#f7d774-ish) with subtle rivet dots in corners; dark squares = brick red-brown (#b5651d / #8b4513) with brick-pattern lines. Add a thick green pipe-style border around the board with highlights/shadows.
-- Coordinate labels (a–h, 1–8) outside the board in white with a dark outline.
-- Pieces represented as emoji/text characters in a circular badge so they read clearly:
-  - White (Mushroom Kingdom heroes): 
-    - King = 🤴 (Mario as king) — fallback "M"
-    - Queen = 👸 (Princess Peach)
-    - Rook = 🏰 (Castle/Toad fortress)
-    - Bishop = 🍄 (Toad/Mushroom)
-    - Knight = 🦖 (Yoshi)
-    - Pawn = 🪙 (Coin / Goomba-stomper) — actually use 🟡 small Goomba? Use 🍄 small? Pick: pawns = small "🟫" Goomba look. Use emoji 👶 no — use 🟤 with face. Simplest: pawn white = "🪙" coin.
-  - Black (Bowser's army):
-    - King = 🐢 (Bowser) — fallback "B"
-    - Queen = 🧙‍♀️ or 👹 (Wendy / Kamek) — use 🧙
-    - Rook = 🏯 (Bowser's castle)
-    - Bishop = 👻 (Boo)
-    - Knight = 🦎 (Koopa) or 🐉
-    - Pawn = 👾 (Goomba-ish) or 🟫
-  Pick a consistent legible emoji for each. White pieces sit on a light cream circle, black pieces on a dark purple circle with a subtle glow so both are clearly distinguishable regardless of square color. Add a thin colored ring: gold for white, red for black.
-- Selected square: glowing yellow outline (star power vibe) with subtle pulse animation.
-- Legal move squares: small green pipe dot in center; capture squares: red ring around the target piece.
-- Last move: highlight from-square and to-square with a soft yellow tint.
-- Check: the king's square pulses red.
+A Mario-themed, fully playable two-player (hot-seat) chess game with chess clock, implemented as a single self-contained HTML file. Now with optimized layouts for desktop, tablet, and iPad-class devices.
 
-GAMEPLAY (FULL CHESS RULES — must be correct):
+### Visual Theme
+- Bright blue Mario-world sky with drifting CSS clouds and rolling green hills (decorations hidden on small portrait tablets to reduce noise).
+- Title bar: "🍄 Mario Chess 🏰" in Press Start 2P with bouncing emoji decorations and chunky shadowed text.
+- 8x8 board with warm tan "?-block" light squares (rivet-dot corners) and brick-pattern dark squares, framed by a thick green pipe-style border with highlights.
+- File/rank labels (a–h, 1–8) in white outlined text outside the board.
+- White pieces (Mario's army): 🤴 K, 👸 Q, 🏰 R, 🍄 B, 🦖 N, 🪙 P on cream/gold circular badges with gold ring.
+- Black pieces (Bowser's army): 🐢 K, 🧙 Q, 🏯 R, 👻 B, 🐉 N, 👾 P on dark purple circular badges with red ring and subtle glow.
+- Selected square: pulsing star-power yellow outline. Legal moves: green pipe dot. Captures: red ring on target. Last move: yellow tint. Check: pulsing red king square.
+
+### Gameplay (Full Chess Rules)
 - Standard 8x8 starting position.
-- Click/tap a piece to select; legal destinations are highlighted. Click a destination to move. Click another own piece to switch selection. Click empty/illegal square to deselect.
-- Implement all standard rules:
-  - Pawn: single & double first move, diagonal capture, en passant, promotion (show a Mario-themed picker: Queen/Rook/Bishop/Knight using the themed icons; default Queen on quick-confirm).
-  - Knight L-moves, Bishop diagonals, Rook ranks/files, Queen both, King one square.
-  - Castling kingside & queenside with all standard conditions (king & rook unmoved, no pieces between, king not in/through/into check).
-  - Check detection; you cannot make a move that leaves your own king in check.
-  - Checkmate and stalemate detection.
-  - Draw by insufficient material (K vs K, K+B vs K, K+N vs K, K+B vs K+B same color bishops).
-  - Threefold repetition draw (track position hashes including side-to-move, castling rights, en passant target).
-  - 50-move rule draw (claimable automatically when reached).
-- Move list / notation panel on the side showing moves in algebraic notation (e.g., "1. e4 e5  2. Nf3 Nc6"). Auto-scroll to latest. Use SAN with check (+) and mate (#) annotations.
-- Captured pieces display: show captured white pieces on Black's side and vice versa, grouped/sorted by value.
-- Turn indicator: a banner showing "Mario's Turn" (white) or "Bowser's Turn" (black) with that side's avatar; current player's clock highlighted/animated.
+- Click/tap to select; click destination to move; click own piece to switch; click off to deselect.
+- Pawn: single/double advance, diagonal capture, en passant, promotion with themed picker.
+- All standard piece movement; castling kingside/queenside with full conditions.
+- Check, checkmate, stalemate detection; cannot make a move leaving own king in check.
+- Draw by insufficient material (K/K, K+B/K, K+N/K, K+B/K+B same color).
+- Threefold repetition (hashed positions including side-to-move, castling rights, ep target).
+- 50-move rule auto-draw.
+- Move list in SAN with disambiguation, "+" for check, "#" for mate; auto-scroll.
+- Captured pieces grouped by capturer side, sorted by piece value.
+- Turn banner ("Mario's Turn" / "Bowser's Turn") with avatar.
 
-CHESS CLOCK:
-- Time control selector before/at start: 5 min, 10 min, 15 min, 30 min (default 10). Optional increment selector: 0s, 2s, 5s (default 0).
-- Two large countdown displays styled like retro Mario HUD score boxes ("MARIO  10:00" / "BOWSER 10:00") in monospace digits. The active side ticks down each 100ms; when below 30s it turns red and pulses, plays a subtle tick (Web Audio API beep, optional & mute toggle).
-- Clock starts on White's first move (not before). Switching turns adds increment if configured.
-- If a clock hits 0:00 → game ends "Time out — <Other> wins!" unless the opponent has insufficient material to mate, in which case it's a draw.
-- Pause/Resume button. Hotkey: Spacebar toggles pause. While paused, the board is not interactable (overlay "PAUSED — press Space or click Resume").
+### Chess Clock
+- Time control: 5/10/15/30 min (default 10) and increment 0/2/5 s (default 0). Applied on New Game.
+- Two retro Mario HUD score-box clocks; active side highlighted; pulses red when below 30 s with subtle ticking sound (mutable).
+- Clock starts on White's first move. Drift-free using Date.now() deltas at 60fps via requestAnimationFrame.
+- Increment added on move. Time-out → opponent wins, unless opponent has insufficient mating material → draw.
+- Pause/Resume button and Spacebar; "PAUSED" overlay blocks interaction while paused.
 
-CONTROLS / UI:
-- Top bar: title, mute toggle (🔊/🔇), pause/resume, new game (with confirm if game in progress), undo last move (full undo of half-move including clock state — limited to last 1 ply for simplicity, or unlimited stack — implement unlimited stack of history).
-- Side panel: time control selector, increment selector, current status text (e.g., "Check!", "Checkmate — Mario wins!", "Stalemate — Draw"), move list, captured pieces.
-- Game-over modal with confetti-like coin shower animation, result text, and "Play Again" button.
-- Responsive: works on desktop (board ~min 480px) and reasonably on tablet/phone (board scales, controls stack).
-- Keyboard: arrow keys move a cursor highlight; Enter selects/moves; Esc deselects; Space pauses; U undoes.
+### Controls / UI
+- Top bar: title, mute (🔊/🔇), pause/resume, undo (unlimited stack), new game (with confirm if in progress).
+- Side panel: time-control selectors, status text, captured pieces, move list.
+- Game-over modal with coin-shower confetti animation and "Play Again".
+- Keyboard: arrows move highlight cursor; Enter selects/moves; Esc deselects; Space pauses; U undoes.
 
-SOUND (Web Audio API, all synthesized — no external files):
-- Move: short blip.
-- Capture: lower thunk.
-- Check: warning chord.
-- Checkmate: descending tune.
-- Promotion: power-up rising arpeggio (1-up style, short).
-- Castle: double-blip.
-- Time low (<30s): subtle tick each second.
-- Mute toggle persists in memory for the session.
+### Responsive Layout
+- **Desktop (≥1181px)**: original 3-column layout — left HUD column (Bowser clock, turn banner, Mario clock), center board, right side panel — unchanged.
+- **Tablet landscape (≤1180px landscape, e.g. iPad Mini 1133×744)**: 3-column layout retained with tightened gaps; right panel narrowed to ~220px; board sized to `min(70vw, 88vh)`; HUD/title font sizes reduced for fit.
+- **Tablet portrait (≤820px portrait, e.g. iPad Mini 744×1133)**:
+  - Vertically stacked: header → top row (turn banner + Mario/Bowser clocks side-by-side as flex:1) → board → full-width 2-column grid panel below (Time Control, Status, Moves spanning full width, Captured spanning full width).
+  - Board sized to `min(92vw, 100vh - 320px)` so it fits without scrolling on iPad Mini portrait.
+  - Decorative clouds/hills hidden to reduce visual noise.
+  - Move list converted to scrollable region with `max-height:30vh`.
+  - Captured-pieces rows allow horizontal scroll for long lists.
+- **Larger portrait tablets (821–1024px portrait)**: similar stacked layout with slightly larger board sizing.
+- **Page scrolling**: `overflow:hidden` retained on desktop; tablet portrait breakpoints switch to `overflow:auto` so content can scroll if needed.
+- **Safe areas**: body uses `env(safe-area-inset-*)` padding so iPad notches/home indicators don't clip content. Viewport meta uses `viewport-fit=cover` and remains user-scalable for accessibility (pinch-zoom not disabled).
 
-CODE QUALITY:
-- Single self-contained HTML file. Clean, organized JavaScript with a Game state object (board, sideToMove, castlingRights, enPassant, halfmoveClock, fullmoveNumber, history). Implement move generation per piece, then filter for legality (no leaving own king in check). Make it robust — chess rules must actually be correct.
-- Use requestAnimationFrame for clock animations smoothness, but compute time using Date.now() deltas to avoid drift.
-- No external network requests at runtime (Google Font import is OK if available, but include a graceful fallback font stack).
+### Touch Ergonomics
+- `@media (pointer: coarse)`: all `.btn` buttons get `min-height/min-width:44px` and 11px font; `.promoBtn` upgraded to 80px with 56px minimum tap target; selects get `min-height:36px`.
+- `touch-action: manipulation` on body, buttons, squares, selects to remove the iOS 300ms tap delay.
+- `-webkit-tap-highlight-color: transparent` globally to suppress blue tap flash.
+- `user-select: none` extended to HUDs, panel headers, turn banner, coords, and squares.
 
-Make it fun, polished, clearly Mario-flavored, and most importantly: a real, correct, playable chess game with a working clock.
+### Sound (Web Audio, synthesized)
+- Move blip, capture thunk, check chord, descending mate tune, 1-up promotion arpeggio, double-blip castle, low-time tick. Mute toggle persists for the session.
+
+### Code Quality
+- Single self-contained HTML file. Game state object with board, side-to-move, castling rights, ep target, halfmove/fullmove counters, history stack, and position-count map for repetition.
+- Move generation per piece, then filtered for legality by simulating and checking own-king safety.
+- Drift-free clock using Date.now() deltas inside requestAnimationFrame loop.
+- No runtime network requests aside from the Google Fonts CSS (with system-font fallback).
   </script>
 </head>
 <body>
@@ -354,14 +500,16 @@ Make it fun, polished, clearly Mario-flavored, and most importantly: a real, cor
 
   <main>
     <div id="leftCol">
-      <div class="hud" id="hudBlack">
-        <div class="who">🐢 BOWSER</div>
-        <div class="time" id="timeBlack">10:00</div>
-      </div>
       <div class="turn-banner" id="turnBanner">🤴 Mario's Turn</div>
-      <div class="hud" id="hudWhite">
-        <div class="who">🤴 MARIO</div>
-        <div class="time" id="timeWhite">10:00</div>
+      <div class="hud-row">
+        <div class="hud" id="hudWhite">
+          <div class="who">🤴 MARIO</div>
+          <div class="time" id="timeWhite">10:00</div>
+        </div>
+        <div class="hud" id="hudBlack">
+          <div class="who">🐢 BOWSER</div>
+          <div class="time" id="timeBlack">10:00</div>
+        </div>
       </div>
     </div>
 
@@ -425,12 +573,12 @@ Make it fun, polished, clearly Mario-flavored, and most importantly: a real, cor
         <div class="status" id="statusText">Ready! White to move.</div>
       </div>
 
-      <div class="panel" style="flex:1;display:flex;flex-direction:column;min-height:0">
+      <div class="panel full" style="display:flex;flex-direction:column;min-height:0">
         <h3>📜 Moves</h3>
         <div id="moves"></div>
       </div>
 
-      <div class="panel">
+      <div class="panel full">
         <h3>🪙 Captured</h3>
         <div style="font-size:8px;color:#aaa;margin-bottom:4px">By Mario (white):</div>
         <div class="captured-row" id="capByWhite"></div>
@@ -456,9 +604,6 @@ const FILES = ['a','b','c','d','e','f','g','h'];
 
 // ---------- Game State ----------
 function createInitialState(){
-  // board: 8x8 array, rank 0 = rank 1 (white back rank), rank 7 = rank 8.
-  // files: 0=a..7=h
-  // piece: {c:'w'|'b', t:'K'|'Q'|'R'|'B'|'N'|'P'} or null
   const b = Array.from({length:8},()=>Array(8).fill(null));
   const back = ['R','N','B','Q','K','B','N','R'];
   for (let f=0;f<8;f++){
@@ -471,12 +616,12 @@ function createInitialState(){
     board: b,
     side: 'w',
     castling: { wK:true, wQ:true, bK:true, bQ:true },
-    ep: null, // {r,f} square that can be captured to (en passant target square, behind the pawn)
-    halfmove: 0, // for 50 move rule
+    ep: null,
+    halfmove: 0,
     fullmove: 1,
-    history: [], // list of move records
-    posCounts: {}, // for threefold
-    result: null, // null or {type, winner, reason}
+    history: [],
+    posCounts: {},
+    result: null,
   };
 }
 
@@ -494,11 +639,7 @@ function findKing(board, color){
   return null;
 }
 
-// Is square (r,f) attacked by `byColor`?
 function isAttacked(board, r, f, byColor){
-  // pawn attacks
-  const pd = byColor==='w' ? -1 : 1; // attacking pawn is at r+pd from target (since white pawns move +1 and attack +1 forward diagonals)
-  // White pawns attack squares at r+1, f+/-1; so a square (r,f) is attacked by white pawn if there's a white pawn at (r-1, f-1) or (r-1, f+1)
   const prr = byColor==='w' ? r-1 : r+1;
   for (const df of [-1,1]){
     const nf = f+df;
@@ -507,7 +648,6 @@ function isAttacked(board, r, f, byColor){
       if (p && p.c===byColor && p.t==='P') return true;
     }
   }
-  // knight
   const knOff = [[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]];
   for (const [dr,df] of knOff){
     const nr=r+dr, nf=f+df;
@@ -516,7 +656,6 @@ function isAttacked(board, r, f, byColor){
       if (p && p.c===byColor && p.t==='N') return true;
     }
   }
-  // king
   for (let dr=-1; dr<=1; dr++) for (let df=-1; df<=1; df++){
     if (!dr && !df) continue;
     const nr=r+dr, nf=f+df;
@@ -525,7 +664,6 @@ function isAttacked(board, r, f, byColor){
       if (p && p.c===byColor && p.t==='K') return true;
     }
   }
-  // sliding: bishop/queen (diagonals), rook/queen (orth)
   const diag=[[1,1],[1,-1],[-1,1],[-1,-1]];
   for (const [dr,df] of diag){
     let nr=r+dr, nf=f+df;
@@ -559,7 +697,6 @@ function inCheck(state, color){
   return isAttacked(state.board, k.r, k.f, color==='w'?'b':'w');
 }
 
-// Generate pseudo-legal moves for piece at (r,f)
 function genPieceMoves(state, r, f){
   const piece = state.board[r][f];
   if (!piece) return [];
@@ -573,7 +710,7 @@ function genPieceMoves(state, r, f){
     const target = b[nr][nf];
     if (!target){
       moves.push(Object.assign({from:{r,f},to:{r:nr,f:nf},capture:false},extra||{}));
-      return true; // can continue sliding
+      return true;
     } else if (target.c === enemy){
       moves.push(Object.assign({from:{r,f},to:{r:nr,f:nf},capture:true,captured:{...target}},extra||{}));
       return false;
@@ -585,7 +722,6 @@ function genPieceMoves(state, r, f){
     const dir = c==='w'?1:-1;
     const startRank = c==='w'?1:6;
     const promoRank = c==='w'?7:0;
-    // forward
     if (inBounds(r+dir,f) && !b[r+dir][f]){
       if (r+dir === promoRank){
         for (const promo of ['Q','R','B','N']){
@@ -593,13 +729,11 @@ function genPieceMoves(state, r, f){
         }
       } else {
         moves.push({from:{r,f},to:{r:r+dir,f},capture:false});
-        // double
         if (r === startRank && !b[r+2*dir][f]){
           moves.push({from:{r,f},to:{r:r+2*dir,f},capture:false,double:true});
         }
       }
     }
-    // captures
     for (const df of [-1,1]){
       const nr = r+dir, nf = f+df;
       if (!inBounds(nr,nf)) continue;
@@ -613,8 +747,7 @@ function genPieceMoves(state, r, f){
           moves.push({from:{r,f},to:{r:nr,f:nf},capture:true,captured:{...t}});
         }
       } else if (state.ep && state.ep.r===nr && state.ep.f===nf){
-        // en passant
-        const capR = r; // captured pawn is on same rank as our pawn
+        const capR = r;
         const capPiece = b[capR][nf];
         if (capPiece && capPiece.c===enemy && capPiece.t==='P'){
           moves.push({from:{r,f},to:{r:nr,f:nf},capture:true,captured:{...capPiece},enPassant:true,captureSquare:{r:capR,f:nf}});
@@ -644,17 +777,14 @@ function genPieceMoves(state, r, f){
       if (!dr && !df) continue;
       pushIfEnemyOrEmpty(r+dr,f+df);
     }
-    // castling
     const rights = state.castling;
     const homeR = c==='w'?0:7;
     if (r===homeR && f===4){
-      // kingside
       const kRight = c==='w' ? rights.wK : rights.bK;
       if (kRight){
         if (!b[homeR][5] && !b[homeR][6]){
           const rk = b[homeR][7];
           if (rk && rk.c===c && rk.t==='R'){
-            // king must not be in check, pass through, or land in check
             if (!isAttacked(b, homeR, 4, enemy) &&
                 !isAttacked(b, homeR, 5, enemy) &&
                 !isAttacked(b, homeR, 6, enemy)){
@@ -681,7 +811,6 @@ function genPieceMoves(state, r, f){
   return moves;
 }
 
-// All pseudo-legal moves for side
 function allPseudoMoves(state, color){
   const out=[];
   for (let r=0;r<8;r++) for (let f=0;f<8;f++){
@@ -694,23 +823,21 @@ function allPseudoMoves(state, color){
   return out;
 }
 
-// Apply a move IN PLACE; returns an "undo" record
 function applyMove(state, m){
   const undo = {
     move: m,
     captured: null,
-    capturedAt: null, // for ep
+    capturedAt: null,
     prevCastling: {...state.castling},
     prevEp: state.ep ? {...state.ep} : null,
     prevHalf: state.halfmove,
     prevFull: state.fullmove,
     prevSide: state.side,
-    rookMove: null, // for castling
+    rookMove: null,
     promotedFromT: null,
   };
   const b = state.board;
   const piece = b[m.from.r][m.from.f];
-  // capture
   if (m.enPassant){
     undo.captured = b[m.captureSquare.r][m.captureSquare.f];
     undo.capturedAt = {r:m.captureSquare.r, f:m.captureSquare.f};
@@ -719,15 +846,12 @@ function applyMove(state, m){
     undo.captured = b[m.to.r][m.to.f];
     undo.capturedAt = {r:m.to.r, f:m.to.f};
   }
-  // move piece
   b[m.to.r][m.to.f] = piece;
   b[m.from.r][m.from.f] = null;
-  // promotion
   if (m.promotion){
     undo.promotedFromT = piece.t;
     piece.t = m.promotion;
   }
-  // castling rook move
   if (m.castle){
     const homeR = piece.c==='w'?0:7;
     if (m.castle==='K'){
@@ -742,38 +866,30 @@ function applyMove(state, m){
       undo.rookMove = {from:{r:homeR,f:0}, to:{r:homeR,f:3}};
     }
   }
-  // update castling rights
-  // king moves -> lose both
   if (piece.t==='K'){
     if (piece.c==='w'){ state.castling.wK=false; state.castling.wQ=false; }
     else { state.castling.bK=false; state.castling.bQ=false; }
   }
-  // rook moves from corners
   if (piece.t==='R'){
     if (piece.c==='w' && m.from.r===0 && m.from.f===0) state.castling.wQ=false;
     if (piece.c==='w' && m.from.r===0 && m.from.f===7) state.castling.wK=false;
     if (piece.c==='b' && m.from.r===7 && m.from.f===0) state.castling.bQ=false;
     if (piece.c==='b' && m.from.r===7 && m.from.f===7) state.castling.bK=false;
   }
-  // capturing rook on its home square
   if (undo.captured && undo.captured.t==='R'){
     if (m.to.r===0 && m.to.f===0) state.castling.wQ=false;
     if (m.to.r===0 && m.to.f===7) state.castling.wK=false;
     if (m.to.r===7 && m.to.f===0) state.castling.bQ=false;
     if (m.to.r===7 && m.to.f===7) state.castling.bK=false;
   }
-  // ep target
   if (piece.t==='P' && m.double){
     state.ep = { r: (m.from.r + m.to.r)/2, f: m.from.f };
   } else {
     state.ep = null;
   }
-  // halfmove
   if (piece.t==='P' || undo.captured) state.halfmove = 0;
   else state.halfmove++;
-  // fullmove
   if (state.side==='b') state.fullmove++;
-  // toggle side
   state.side = state.side==='w'?'b':'w';
   return undo;
 }
@@ -787,7 +903,6 @@ function undoMove(state, undo){
   state.fullmove = undo.prevFull;
   const b = state.board;
   const piece = b[m.to.r][m.to.f];
-  // unpromote
   if (m.promotion && undo.promotedFromT){
     piece.t = undo.promotedFromT;
   }
@@ -803,7 +918,6 @@ function undoMove(state, undo){
   }
 }
 
-// Legal moves: filter pseudo-legal that don't leave own king in check
 function legalMovesFor(state, r, f){
   const piece = state.board[r][f];
   if (!piece || piece.c !== state.side) return [];
@@ -811,7 +925,7 @@ function legalMovesFor(state, r, f){
   const out = [];
   for (const m of ps){
     const u = applyMove(state, m);
-    const stillCheck = inCheck(state, u.prevSide); // mover's color
+    const stillCheck = inCheck(state, u.prevSide);
     undoMove(state, u);
     if (!stillCheck) out.push(m);
   }
@@ -830,24 +944,19 @@ function allLegalMoves(state){
   return out;
 }
 
-// ----- Insufficient material -----
 function insufficientMaterial(state){
-  // collect non-king pieces by color
   const pieces = { w:[], b:[] };
   for (let r=0;r<8;r++) for (let f=0;f<8;f++){
     const p = state.board[r][f];
     if (p && p.t!=='K') pieces[p.c].push({...p, r, f});
   }
-  // K vs K
   if (pieces.w.length===0 && pieces.b.length===0) return true;
-  // K + minor vs K
   if (pieces.w.length===0 && pieces.b.length===1){
     const p = pieces.b[0]; if (p.t==='B'||p.t==='N') return true;
   }
   if (pieces.b.length===0 && pieces.w.length===1){
     const p = pieces.w[0]; if (p.t==='B'||p.t==='N') return true;
   }
-  // K+B vs K+B same colored bishops
   if (pieces.w.length===1 && pieces.b.length===1 && pieces.w[0].t==='B' && pieces.b[0].t==='B'){
     const cw = (pieces.w[0].r + pieces.w[0].f) % 2;
     const cb = (pieces.b[0].r + pieces.b[0].f) % 2;
@@ -856,7 +965,6 @@ function insufficientMaterial(state){
   return false;
 }
 
-// Insufficient material to mate (for time-out draw): the SIDE color cannot mate alone (regardless of opponent)
 function cannotMate(state, color){
   let bishops=0, knights=0, others=0;
   for (let r=0;r<8;r++) for (let f=0;f<8;f++){
@@ -868,12 +976,10 @@ function cannotMate(state, color){
     }
   }
   if (others>0) return false;
-  // lone king or K + single minor cannot mate
   if (bishops + knights <= 1) return true;
   return false;
 }
 
-// ----- Position hash for repetition -----
 function positionHash(state){
   let s='';
   for (let r=0;r<8;r++) for (let f=0;f<8;f++){
@@ -891,9 +997,7 @@ function hashAndCount(state){
   return h;
 }
 
-// ----- SAN -----
 function moveToSAN(state, move, beforeBoard, beforeState){
-  // Castling
   if (move.castle){
     let san = move.castle==='K' ? 'O-O' : 'O-O-O';
     return san;
@@ -909,17 +1013,14 @@ function moveToSAN(state, move, beforeBoard, beforeState){
     if (move.promotion) san += '=' + move.promotion;
   } else {
     san = piece.t;
-    // disambiguation: find other pieces of same type that can also move to to-square
     const ambig=[];
     for (let r=0;r<8;r++) for (let f=0;f<8;f++){
       if (r===move.from.r && f===move.from.f) continue;
       const p = beforeBoard[r][f];
       if (p && p.c===piece.c && p.t===piece.t){
-        // generate moves from (r,f) in beforeState
         const ms = genPieceMoves(beforeState, r, f);
         for (const mm of ms){
           if (mm.to.r===move.to.r && mm.to.f===move.to.f){
-            // check legality
             const u = applyMove(beforeState, mm);
             const stillCheck = inCheck(beforeState, u.prevSide);
             undoMove(beforeState, u);
@@ -1001,7 +1102,6 @@ const gameOv = document.getElementById('gameOv');
 const goTitle = document.getElementById('goTitle');
 const goText = document.getElementById('goText');
 
-// build coords
 function buildCoords(){
   filesTop.innerHTML=''; filesBot.innerHTML=''; ranksL.innerHTML=''; ranksR.innerHTML='';
   for (let f=0;f<8;f++){
@@ -1016,13 +1116,11 @@ function buildCoords(){
 }
 buildCoords();
 
-// build board squares (8 rows top to bottom, top is rank 8)
 const squares = [];
 function buildBoard(){
   boardEl.innerHTML='';
   squares.length=0;
   for (let displayRow=0; displayRow<8; displayRow++){
-    // displayRow 0 = rank 8 = state row 7
     const r = 7 - displayRow;
     for (let f=0; f<8; f++){
       const sq = document.createElement('div');
@@ -1036,13 +1134,12 @@ function buildBoard(){
 }
 buildBoard();
 
-let selected = null; // {r,f}
+let selected = null;
 let legalForSelected = [];
-let cursor = {r:1, f:4}; // keyboard cursor
+let cursor = {r:1, f:4};
 let lastMove = null;
 
 function squareEl(r,f){
-  // since squares are in display order, find by data
   for (const s of squares) if (s.r===r && s.f===f) return s.el;
   return null;
 }
@@ -1060,14 +1157,12 @@ function render(){
       el.appendChild(pe);
     }
   }
-  // last move highlight
   if (lastMove){
     const a = squareEl(lastMove.from.r, lastMove.from.f);
     const b = squareEl(lastMove.to.r, lastMove.to.f);
     if (a) a.classList.add('last');
     if (b) b.classList.add('last');
   }
-  // check highlight
   if (G.result==null){
     if (inCheck(G, G.side)){
       const k = findKing(G.board, G.side);
@@ -1077,7 +1172,6 @@ function render(){
       }
     }
   }
-  // selection + legal
   if (selected){
     const se = squareEl(selected.r, selected.f);
     if (se) se.classList.add('selected');
@@ -1091,11 +1185,9 @@ function render(){
       }
     }
   }
-  // cursor
   const ce = squareEl(cursor.r, cursor.f);
   if (ce) ce.classList.add('cursor');
 
-  // turn banner
   if (G.result){
     turnBanner.textContent = '🏁 Game Over';
     turnBanner.classList.remove('black');
@@ -1106,10 +1198,8 @@ function render(){
     turnBanner.textContent = "🐢 Bowser's Turn";
     turnBanner.classList.add('black');
   }
-  // HUD active
   hudW.classList.toggle('active', G.side==='w' && !G.result && clockRunning && !paused);
   hudB.classList.toggle('active', G.side==='b' && !G.result && clockRunning && !paused);
-  // captures
   renderCaptures();
   renderMoves();
   updateStatus();
@@ -1118,8 +1208,7 @@ function render(){
 function renderCaptures(){
   capByWhite.innerHTML='';
   capByBlack.innerHTML='';
-  // accumulate captured pieces
-  const byW = []; // pieces white captured (so they are black)
+  const byW = [];
   const byB = [];
   for (const h of G.history){
     if (h.move.capture){
@@ -1178,21 +1267,15 @@ function updateStatus(){
   }
 }
 
-// =========================================================
-// Game flow
-// =========================================================
 function onSquareClick(r,f){
   if (G.result) return;
   if (paused) return;
   if (promoPending) return;
   const piece = G.board[r][f];
   if (selected){
-    // attempt move
     const mv = legalForSelected.find(m=>m.to.r===r && m.to.f===f);
     if (mv){
-      // promotion: ask
       if (mv.promotion){
-        // collect all promotion variants for this from-to
         const variants = legalForSelected.filter(m=>m.to.r===r && m.to.f===f && m.promotion);
         askPromotion(variants);
         return;
@@ -1200,12 +1283,10 @@ function onSquareClick(r,f){
       doMove(mv);
       return;
     }
-    // switch selection if own piece
     if (piece && piece.c===G.side){
       selectSquare(r,f);
       return;
     }
-    // otherwise deselect
     selected = null; legalForSelected=[];
     render();
     return;
@@ -1219,7 +1300,6 @@ function onSquareClick(r,f){
 function selectSquare(r,f){
   selected = {r,f};
   legalForSelected = legalMovesFor(G, r, f);
-  // dedupe: for promotion, we'll just include all and handle picker
   render();
 }
 
@@ -1248,9 +1328,7 @@ function askPromotion(variants){
 }
 
 function doMove(m){
-  // capture move details for SAN before applying
   const beforeBoard = copyBoard(G.board);
-  // we need beforeState for SAN disambiguation: use a clone
   const beforeStateClone = {
     board: copyBoard(G.board),
     side: G.side,
@@ -1262,8 +1340,7 @@ function doMove(m){
   };
   const mover = G.side;
   const undo = applyMove(G, m);
-  // Now figure out check/mate for SAN suffix
-  const opponent = G.side; // already toggled
+  const opponent = G.side;
   const opponentInCheck = inCheck(G, opponent);
   const opponentMoves = allLegalMoves(G);
   const isMate = opponentInCheck && opponentMoves.length===0;
@@ -1271,7 +1348,6 @@ function doMove(m){
   let san = moveToSAN(beforeStateClone, m, beforeBoard, beforeStateClone);
   if (isMate) san += '#';
   else if (opponentInCheck) san += '+';
-  // record
   m._mover = mover;
   const histRec = {
     move: m,
@@ -1283,28 +1359,23 @@ function doMove(m){
   };
   G.history.push(histRec);
   lastMove = m;
-  // apply increment to mover's clock (not before first move started clock)
   if (clockRunning){
     if (mover==='w') timeW += incrementMs;
     else timeB += incrementMs;
   }
-  // start clock on first white move
   if (!clockRunning && mover==='w'){
     clockRunning = true;
     lastTickTs = Date.now();
   } else {
-    lastTickTs = Date.now(); // reset tick for new side
+    lastTickTs = Date.now();
   }
-  // hash count
   hashAndCount(G);
 
-  // sound effects
   if (m.castle) Snd.castle();
   else if (m.promotion) Snd.promo();
   else if (m.capture) Snd.capture();
   else Snd.move();
 
-  // outcome checks
   selected = null; legalForSelected=[];
   if (isMate){
     Snd.mate();
@@ -1313,10 +1384,9 @@ function doMove(m){
     setResult({type:'stalemate', winner:null, text:'Stalemate — Draw 🤝'});
   } else if (insufficientMaterial(G)){
     setResult({type:'draw', winner:null, text:'Draw — Insufficient Material'});
-  } else if (G.halfmove >= 100){ // 50 full moves = 100 ply
+  } else if (G.halfmove >= 100){
     setResult({type:'draw', winner:null, text:'Draw — 50-move Rule'});
   } else {
-    // threefold
     const h = positionHash(G);
     if (G.posCounts[h] >= 3){
       setResult({type:'draw', winner:null, text:'Draw — Threefold Repetition'});
@@ -1330,17 +1400,12 @@ function doMove(m){
 function setResult(res){
   G.result = res;
   clockRunning = false;
-  // show modal
   goTitle.textContent = res.text.split('—')[0].trim() || 'Game Over';
   goText.textContent = res.text;
   gameOv.classList.add('show');
-  // coin shower
   startCoinShower();
 }
 
-// =========================================================
-// Clock
-// =========================================================
 let timeControlMin = 10;
 let incrementSec = 0;
 let timeW = 10*60*1000;
@@ -1379,14 +1444,12 @@ function tickClock(){
       }
     }
   }
-  // update display
   timeWEl.textContent = fmtTime(timeW);
   timeBEl.textContent = fmtTime(timeB);
   hudW.classList.toggle('low', timeW < 30000 && timeW>0);
   hudB.classList.toggle('low', timeB < 30000 && timeB>0);
   hudW.classList.toggle('active', G.side==='w' && !G.result && clockRunning && !paused);
   hudB.classList.toggle('active', G.side==='b' && !G.result && clockRunning && !paused);
-  // tick sound when in low time, once per second
   if (clockRunning && !paused && !G.result){
     if (G.side==='w' && timeW<30000 && timeW>0){
       const sec = Math.ceil(timeW/1000);
@@ -1404,7 +1467,6 @@ requestAnimationFrame(tickClock);
 function onFlag(loser){
   clockRunning = false;
   const winner = loser==='w'?'b':'w';
-  // check insufficient material for winner
   if (cannotMate(G, winner)){
     setResult({type:'draw', winner:null, text:'Draw — '+(loser==='w'?'Mario':'Bowser')+' flagged but '+(winner==='w'?'Mario':'Bowser')+' has insufficient material'});
   } else {
@@ -1413,9 +1475,6 @@ function onFlag(loser){
   render();
 }
 
-// =========================================================
-// Buttons / controls
-// =========================================================
 const btnMute = document.getElementById('btnMute');
 const btnPause = document.getElementById('btnPause');
 const btnUndo = document.getElementById('btnUndo');
@@ -1447,17 +1506,14 @@ btnUndo.addEventListener('click', undoLast);
 function undoLast(){
   if (G.history.length===0) return;
   if (G.result){
-    // allow undo from game over
     G.result = null;
     gameOv.classList.remove('show');
   }
   const rec = G.history.pop();
-  // remove pos count
   const h = positionHash(G);
   if (G.posCounts[h]) G.posCounts[h]--;
   if (G.posCounts[h]<=0) delete G.posCounts[h];
   undoMove(G, rec.undo);
-  // restore clock to before move? simplest: restore from prior history entry (or initial)
   if (G.history.length>0){
     const prev = G.history[G.history.length-1];
     timeW = prev.timeWAfter;
@@ -1467,7 +1523,6 @@ function undoLast(){
     timeB = timeControlMin*60*1000;
     clockRunning = false;
   }
-  // last move
   lastMove = G.history.length ? G.history[G.history.length-1].move : null;
   selected = null; legalForSelected=[];
   render();
@@ -1501,9 +1556,6 @@ function newGame(){
   render();
 }
 
-// =========================================================
-// Keyboard
-// =========================================================
 document.addEventListener('keydown', (e)=>{
   if (e.code==='Space'){
     e.preventDefault();
@@ -1522,9 +1574,6 @@ document.addEventListener('keydown', (e)=>{
   }
 });
 
-// =========================================================
-// Coin shower
-// =========================================================
 let coinTimers = [];
 function startCoinShower(){
   stopCoinShower();
@@ -1550,7 +1599,6 @@ function stopCoinShower(){
   document.querySelectorAll('.coin').forEach(c=>c.remove());
 }
 
-// initial render
 render();
 </script>
 <script>
