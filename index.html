@@ -244,7 +244,8 @@ select.mario-sel{
 @media (max-width:1180px) and (orientation: landscape){
   main{gap:6px}
   #rightCol{flex:0 0 220px}
-  .board{width:min(70vw, 88vh);height:min(70vw, 88vh)}
+  /* iPad Mini optimization: scale board ~15% smaller for breathing room */
+  .board{width:min(60vw, 75vh);height:min(60vw, 75vh)}
   .title{font-size:14px}
   .hud{min-width:160px;padding:8px 10px}
   .hud .who{font-size:10px}
@@ -315,9 +316,10 @@ select.mario-sel{
     flex:0 0 auto;
   }
   .board-wrap{padding:22px}
+  /* iPad Mini optimization: scale board ~15% smaller so HUD + panels breathe */
   .board{
-    width: min(92vw, calc(100vh - 320px));
-    height: min(92vw, calc(100vh - 320px));
+    width: min(78vw, calc((100vh - 320px) * 0.85));
+    height: min(78vw, calc((100vh - 320px) * 0.85));
   }
   .coords-files{left:22px;right:22px;font-size:9px}
   .coords-ranks{top:22px;bottom:22px;font-size:9px}
@@ -355,7 +357,8 @@ select.mario-sel{
   #leftCol .hud{flex:1 1 0;min-width:0}
   #leftCol .turn-banner{align-self:center}
   #centerCol{order:2}
-  .board{width:min(80vw, calc(100vh - 360px));height:min(80vw, calc(100vh - 360px))}
+  /* iPad Mini optimization: scale board ~15% smaller for full-size iPad portrait too */
+  .board{width:min(68vw, calc((100vh - 360px) * 0.85));height:min(68vw, calc((100vh - 360px) * 0.85))}
   #rightCol{order:3;flex:0 0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px}
   #rightCol .panel.full{grid-column:1 / -1}
   #moves{height:auto;max-height:28vh}
@@ -389,7 +392,7 @@ select.mario-sel{
 /* Old small-screen rule retained but made non-portrait so it doesn't conflict with the new portrait rules */
 @media(max-width:900px) and (orientation: landscape){
   #rightCol{flex-basis:240px}
-  .board{width:min(86vw, 560px);height:min(86vw, 560px)}
+  .board{width:min(73vw, 476px);height:min(73vw, 476px)}
 }
 </style>
   <script type="application/ld+json">

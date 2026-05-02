@@ -1,5 +1,5 @@
 /* Mario Chess Service Worker */
-const VERSION = 'v1.1.0';
+const VERSION = 'v1.2.0';
 const CACHE = `mario-chess-${VERSION}`;
 
 // Files to pre-cache (relative paths so it works under any GitHub Pages base path)
