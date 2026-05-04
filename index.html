@@ -227,11 +227,11 @@ select.mario-sel{
 .captured-row .pc.b{background:#3a1a6b;box-shadow:inset 0 0 0 1px #e63946;color:#fff}
 
 /* paused overlay */
-#pausedOv, #promoOv, #gameOv{
+#pausedOv, #promoOv, #gameOv, #confirmOv{
   position:absolute;inset:0;display:none;align-items:center;justify-content:center;
   background:rgba(0,0,0,.6);z-index:50;border-radius:14px;
 }
-#pausedOv.show, #promoOv.show, #gameOv.show{display:flex}
+#pausedOv.show, #promoOv.show, #gameOv.show, #confirmOv.show{display:flex}
 .pausedBox, .promoBox, .gameBox{
   background:linear-gradient(#222,#000);border:4px solid #ffcc33;border-radius:10px;
   padding:20px 26px;text-align:center;font-size:14px;color:#fff;text-shadow:2px 2px 0 #000;
@@ -555,6 +555,16 @@ A Mario-themed, fully playable chess game with chess clock and an optional AI op
             <h2 id="goTitle">Game Over</h2>
             <p id="goText"></p>
             <button class="btn gold" id="goPlayAgain">★ Play Again</button>
+          </div>
+        </div>
+        <div id="confirmOv" class="gameOv-like">
+          <div class="gameBox">
+            <h2 style="color:#ffcc33;margin:0 0 10px 0;font-size:16px">Start new game?</h2>
+            <p style="margin:8px 0 14px 0;font-size:10px;line-height:1.6">Current game will be lost.</p>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+              <button class="btn gold" id="confirmYes">★ New Game</button>
+              <button class="btn" id="confirmNo">Cancel</button>
+            </div>
           </div>
         </div>
       </div>
@@ -1938,12 +1948,32 @@ function undoLast(){
   if (!G.result) scheduleBotMoveIfNeeded();
 }
 
+const confirmOv = document.getElementById('confirmOv');
+const confirmYes = document.getElementById('confirmYes');
+const confirmNo = document.getElementById('confirmNo');
+
 btnNew.addEventListener('click', ()=>{
-  if (G.history.length>0 && !G.result){
-    if (!confirm('Start a new game? Current game will be lost.')) return;
+  // Skip the confirm prompt for fresh games (no moves yet) and for finished games.
+  if (G.history.length === 0 || G.result){
+    newGame();
+    return;
   }
+  // Otherwise show in-page Mario-themed confirmation (works in iOS standalone PWA
+  // where window.confirm() is blocked).
+  confirmOv.classList.add('show');
+});
+confirmYes.addEventListener('click', ()=>{
+  confirmOv.classList.remove('show');
   newGame();
 });
+confirmNo.addEventListener('click', ()=>{
+  confirmOv.classList.remove('show');
+});
+// Tapping the dim background also cancels.
+confirmOv.addEventListener('click', (e)=>{
+  if (e.target === confirmOv) confirmOv.classList.remove('show');
+});
+
 goPlayAgain.addEventListener('click', ()=>{ gameOv.classList.remove('show'); newGame(); });
 
 function newGame(){
@@ -1990,7 +2020,10 @@ document.addEventListener('keydown', (e)=>{
     return;
   }
   if (e.key==='u' || e.key==='U'){ undoLast(); return; }
-  if (e.key==='Escape'){ selected=null; legalForSelected=[]; render(); return; }
+  if (e.key==='Escape'){
+    if (confirmOv.classList.contains('show')){ confirmOv.classList.remove('show'); return; }
+    selected=null; legalForSelected=[]; render(); return;
+  }
   if (paused || G.result || promoPending) return;
   if (isBotTurn()) return;
   if (e.key==='ArrowUp'){ cursor.r = Math.min(7, cursor.r+1); render(); }
